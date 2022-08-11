@@ -1,5 +1,6 @@
 package com.marlon.controller;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,13 +34,39 @@ public class controller {
 	@GetMapping("/user/{id}")
 	public ResponseEntity<User> getUserId(@PathVariable Integer id){
 		Optional<User> us = userserv.getUserbyId(id); 
+	
 		return new ResponseEntity<User>(HttpStatus.OK); 
 	}
+	
+	
+	@PostMapping("/login")
+	public void loginUser(@RequestBody String email, String pass) {
+		
+		System.out.println(email + pass);
+		
+		userserv.login(email, pass); 		
+		
+	}
+	
 	
 	@PostMapping("/adduser")
 	public void addUser(@RequestBody User us) {
 		System.out.println("Before adding the users they are these:  " + us);
+		
+		System.out.println("hash password to add to DB " + us.getPassword());
+		
+		BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder(5, new SecureRandom());
+		
+		String encodedpwd = bcpe.encode(us.getPassword()); 
+		
+		us.setPassword(encodedpwd); 
+		
+		System.out.println("encoded pass is now: " + us.getPassword());
+		
 		userserv.addUser(us);
+		
+		System.out.println("Once it successfully creates user send an email here.... ");
+		//send mail after successful account creation 
 		
 	}
 	

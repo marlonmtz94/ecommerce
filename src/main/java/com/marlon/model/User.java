@@ -20,7 +20,7 @@ import com.marlon.model.Addresses;
 @Table(name="user")
 public class User {
 	// these will be the column names used on the table 
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(name="UserID")
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(name="userid")
 	private int userid;
 	private String email;
 	private String password;

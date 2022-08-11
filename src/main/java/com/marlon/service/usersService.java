@@ -15,6 +15,18 @@ public class usersService {
 	@Autowired
 	repo repository; 
 	
+	public void login(String email, String password){
+		try {
+		 //repository.findlogin(email, password); 
+		 
+		 System.out.println("Login success: ");
+		 
+		 
+		}catch(Exception e) {
+			System.out.println("Failed to Login: ");
+		}
+	}
+	
 	public List<User> getAllUsers(){
 		
 		return repository.findAll();
@@ -28,13 +40,15 @@ public class usersService {
 	}
 	
 	
+	
+	
 	public void deleteUser(Integer id ) {
 		repository.deleteById(id);
 		
 	}
 	
 	public void addUser(User use) {
-		
+			
 		repository.save(use); 
 	}
 
