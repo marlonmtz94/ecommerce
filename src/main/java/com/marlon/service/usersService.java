@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.marlon.model.User;
+import com.marlon.model.userroles;
 import com.marlon.repository.repo;
 
 @Service 
@@ -48,8 +49,23 @@ public class usersService {
 	}
 	
 	public void addUser(User use) {
-			
-		repository.save(use); 
+		
+		int lastID; 
+		 
+		lastID= repository.getLastid(); 
+		
+		System.out.println("THE LAST ID IS: " + lastID);
+		
+		userroles ur = new userroles();
+		ur.setRoleid(use.getUserid());
+		
+		use.getUsersrole().add(ur); 
+		
+		System.out.println( "role id should be "+ ur.getUser()); 
+		
+		
+		//repository.save(use); 
+
 	}
 
 }
