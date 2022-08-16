@@ -15,11 +15,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="productcategory")
-public class ProductCategory {
+@Table(name="roles")
+public class roles {
 	// these will be the column names used on the table 
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(name="CategoryID", unique= true)
-	private int CategoryID;
-	@Column(name="CategoryName")
-	private int CategoryName; 
+	@Id @Column(name="roleid")
+	private int roleid;
+	@Column(name="roleName")
+	private String roleName;
+	
 }
