@@ -23,11 +23,12 @@ import lombok.NoArgsConstructor;
 @Table(name="userroles")
 public class userroles {
 	
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(name="roleid" ,unique =true)
+	@Id @Column(name="roleid", unique=true)
 	private int roleid; 
-	
-	@ManyToOne()
-	@JoinColumn(name = "userid")
+
+
+	@ManyToOne() 
+	@JoinColumn(name = "userid", unique =true)
 	private User user; 
 
 }

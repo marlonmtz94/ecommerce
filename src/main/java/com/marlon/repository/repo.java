@@ -12,14 +12,15 @@ import com.marlon.model.User;
 public interface repo extends JpaRepository<User, Integer>{
 	
 	
-	//@Query("Select email,password from user where email= (:email) and password= (:password)")
-	//oid findlogin(@Param("email") String email, @Param("password") String password); 
+	@Query("SELECT userid,email from user where email= :email and password= :password") 
+	Optional<User> findlogin(@Param("email") String email, @Param("password") String password); 
 	
 	
-	//Optional<User> findByEmail(String email); 
+	Optional<User> findByEmail(String email); 
 	
-	@Query("SELECT userid FROM ecommerce.user ORDER BY userid DESC LIMIT 0, 1")
-	Integer getLastid(); 
+	// this will get the max id in my database and will be used to add to the roles table role id 
+	//@Query("SELECT max(userid) from user") 
+	//public int getLastid(); 
 	
 
 }

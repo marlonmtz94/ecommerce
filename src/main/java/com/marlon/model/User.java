@@ -22,7 +22,7 @@ import com.marlon.model.Addresses;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name="user")
 @Table(name="user")
 public class User {
 	// these will be the column names used on the table 
@@ -38,6 +38,8 @@ public class User {
 	private String last_name;
 	@Column(name="phone")
 	private String phone;	
+	@Column(name= "permission")
+	private String permission; 
 	
 	
 	@OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)

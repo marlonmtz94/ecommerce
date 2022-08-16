@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.marlon.model.User;
@@ -11,21 +14,24 @@ import com.marlon.model.userroles;
 import com.marlon.repository.repo;
 
 @Service 
-public class usersService {
+public class usersService implements UserDetailsService {
 	
 	@Autowired
 	repo repository; 
 	
+
 	public void login(String email, String password){
-		try {
-		 //repository.findlogin(email, password); 
+		
+		System.out.println("THIS IS WHAT WE ARE GETTING: "+ repository.findlogin(email, password) ); 
+		
+		repository.findlogin(email, password); 
+		
+		System.out.println("wrong credentials: ");
+			
+		
+		System.out.println("yaya ");
 		 
-		 System.out.println("Login success: ");
 		 
-		 
-		}catch(Exception e) {
-			System.out.println("Failed to Login: ");
-		}
 	}
 	
 	public List<User> getAllUsers(){
@@ -52,20 +58,28 @@ public class usersService {
 		
 		int lastID; 
 		 
-		lastID= repository.getLastid(); 
+		//lastID= repository.getLastid(); 
 		
-		System.out.println("THE LAST ID IS: " + lastID);
+		//System.out.println("THE LAST ID IS: " + lastID);
+		//role id should be set by default to 1 since 1 will be for users, 2 admin and 3 mods
+		//userroles ur = new userroles();
+		//ur.set(lastID+1);
 		
-		userroles ur = new userroles();
-		ur.setRoleid(use.getUserid());
+		//use.getUsersrole().add(ur); 
 		
-		use.getUsersrole().add(ur); 
-		
-		System.out.println( "role id should be "+ ur.getUser()); 
+		//System.out.println( "role id should be "+ ur.getRoleid()); 
 		
 		
-		//repository.save(use); 
+		repository.save(use); 
 
 	}
+	
+	
+	@Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> user = repository.findByEmail(username);
+        return user.map(GroupUserDetails::new)
+                .orElseThrow(() -> new UsernameNotFoundException(username + " Not Found"));
+    }
 
 }
