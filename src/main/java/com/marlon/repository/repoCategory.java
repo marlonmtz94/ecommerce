@@ -1,0 +1,18 @@
+package com.marlon.repository;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.marlon.model.ProductCategory; 
+
+public interface repoCategory extends JpaRepository<ProductCategory, Integer>{
+	
+
+	Optional<ProductCategory> findById(int id); 
+	
+
+
+}

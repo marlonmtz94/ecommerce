@@ -10,8 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.marlon.model.User;
+import com.marlon.model.Product;
 import com.marlon.model.userroles;
 import com.marlon.repository.repo;
+import com.marlon.repository.repoProduct;
 
 @Service 
 public class usersService implements UserDetailsService {
@@ -20,19 +22,21 @@ public class usersService implements UserDetailsService {
 	repo repository; 
 	
 
+
 	public void login(String email, String password){
 		
 		System.out.println("THIS IS WHAT WE ARE GETTING: "+ repository.findlogin(email, password) ); 
 		
 		repository.findlogin(email, password); 
 		
-		System.out.println("wrong credentials: ");
+		//System.out.println("wrong credentials: ");
 			
 		
-		System.out.println("yaya ");
+		//System.out.println("yaya ");
 		 
 		 
 	}
+	
 	
 	public List<User> getAllUsers(){
 		

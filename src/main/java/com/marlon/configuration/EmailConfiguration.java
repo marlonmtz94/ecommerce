@@ -1,7 +1,7 @@
 package com.marlon.configuration;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+/*
+//import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +24,7 @@ public class EmailConfiguration {
 	private String password; 
 	
 	
-	
+
 
 }
+	*/

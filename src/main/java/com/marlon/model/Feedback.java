@@ -1,6 +1,6 @@
 package com.marlon.model;
 
-
+/*
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -27,3 +27,4 @@ public class Feedback {
 	
 
 }
+*/

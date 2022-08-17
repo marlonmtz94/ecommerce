@@ -1,13 +1,13 @@
 package com.marlon.controller;
 
-import java.security.SecureRandom;
+//import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
+//import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,14 +19,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marlon.common.UserConstant;
+import com.marlon.model.Login;
+import com.marlon.model.Product;
+import com.marlon.model.ProductCategory;
 import com.marlon.model.User;
 import com.marlon.service.usersService;
+import com.marlon.service.productService;
 
 @RestController // implementing restful web services
 public class controller {
 	
 	@Autowired
 	private usersService userserv; // has a relationship 
+	@Autowired
+	private productService productserv; 
 	@Autowired
 	private BCryptPasswordEncoder pwdEncoder; 
 	
@@ -40,17 +46,29 @@ public class controller {
 	@GetMapping("/user/{id}")
 	public ResponseEntity<User> getUserId(@PathVariable Integer id){
 		Optional<User> us = userserv.getUserbyId(id); 
-	
+		System.out.println("User selected is: " + us );
 		return new ResponseEntity<User>(HttpStatus.OK); 
 	}
 	
+	/*
+	@GetMapping("/delete/{id}")
+	public void getdeletebyId(@PathVariable Integer id)
+	{
+		
+		System.out.println("Deleted a user by id: " + id); 
+	}
+	*/
+	
 	
 	@PostMapping("/loginuser")
-	public void loginUser(@RequestBody String email, String pass) {
+	public void loginUser(@RequestBody Login log) {
 		
-		System.out.println(" tHIS IS MY CREDENTIALS: " + email + pass);
-		String password = pwdEncoder.encode(pass); 
-		userserv.login(email, password); 		
+		System.out.println(" tHIS IS MY CREDENTIALS: " + log.getPassword());
+		System.out.println("password:??? " );
+		String passwords = pwdEncoder.encode(log.getPassword()); 
+		
+		System.out.println( "this is encoded: " + passwords);
+		userserv.login(log.getEmail(),passwords); 		
 		
 	}
 	
@@ -83,6 +101,41 @@ public class controller {
 		
 	}
 	
+	@PostMapping("/addcategory")
+	public String addProduct(@RequestBody ProductCategory cat) {
+		
+		System.out.println("these are the categories " + cat); 
+		productserv.addCat(cat); 
+		return "Added Categories";
+	}
+	
+	
+	@PostMapping("/addproducts")
+	public String addProduct(@RequestBody Product pro) {
+		
+		System.out.println("These are my products: " + pro );
+		
+		productserv.addPro(pro);
+		
+		return "ADDED PRODUCTS "; 
+		
+	}
+	
+	
+
+	@GetMapping("/getAllProducts")
+	@Secured("ROLE_ADMIN")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	public List<Product> listallproducts(){
+		System.out.println("Admin you retrived all the following products: ");
+		
+		return productserv.getAllProducts(); 
+		
+	}
+	
+	
+	
+	
 	@GetMapping("/getAll")
 	@Secured("ROLE_ADMIN")
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -90,12 +143,6 @@ public class controller {
 		return userserv.getAllUsers(); 
 		
 	}
-	
-	
-	
-	
-	
-	
 	
 	@GetMapping("/")
 	public String welcome() {
@@ -105,6 +152,8 @@ public class controller {
 	}
 	
 	@GetMapping("/user")
+	@Secured("ROLE_USER")
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public String welcomeuser() {
 		
 		return "Welcome to the home page of USer "; 
@@ -117,6 +166,8 @@ public class controller {
 		return "Welcome to the home page ADmin "; 
 		
 	}
+	
+	
 	
 	
 	
