@@ -36,8 +36,14 @@ public class ShoppingCart {
 	@Column(name="productId")
 	private int productId; 
 	
+	@Column(name = "userid")
+	private int userid; 
 	
+	@Column(name ="qty")
+	private int qty; 
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Product product; 
 	
 	
 	
